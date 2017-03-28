@@ -133,9 +133,9 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique(datab
                         error('Unexpected database name.');
                 end
             end            
-            mean(errors)
+            mean(errors);
         end
-    display(floor(100*i/num_test_graphs));
+%     display(floor(100*i/num_test_graphs));
     end
     average_hamming = mean(errors);
     average_runtime=total_runtime/number_of_test;

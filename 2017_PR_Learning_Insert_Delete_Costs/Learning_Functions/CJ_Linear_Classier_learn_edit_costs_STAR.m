@@ -1,4 +1,4 @@
-function [Kv, Ke, data1, data2] = Linear_Classier_learn_edit_costs_STAR(data, Outlier,Imposed_Kv,Imposed_Ke)
+function [Kv, Ke, data1, data2] = CJ_Linear_Classier_learn_edit_costs_STAR(data, Outlier,Imposed_Kv,Imposed_Ke, n_labels)
  %    Outlier: Percentil. [1..99] 
  
     x1 = [];
@@ -6,7 +6,6 @@ function [Kv, Ke, data1, data2] = Linear_Classier_learn_edit_costs_STAR(data, Ou
     x2 = [];
     y2 = [];  
     for elem = 1:size(data,2)  
-%         elem
         labelling = data{elem}.labelling;
         if(sum(labelling>0)>0)
             G1 = data{elem}.graph1;
@@ -14,42 +13,51 @@ function [Kv, Ke, data1, data2] = Linear_Classier_learn_edit_costs_STAR(data, Ou
                xx1=[];
                yy1=[];
 
+
+
+        n_subs = 0;
+        n_dels = 0;
         for label = 1:length(labelling)
          
             % calcultating Substitution points (first option)
             if(labelling(label)>0)
-                n = sum(G1.edges(label,:));
-                m = sum(G2.edges(labelling(label),:));
-                [costStar , nn]  = computeCostStar(G1, G2, label, labelling(label));
-                %[costStar , nn]  = computeCostStar_with_lab(G1, G2, label, labelling(label), labelling);
-                %DDD=m-2*nn-1;
-                DDD=n-abs(n-m)+1;
-                if (DDD ~= 0)
-                    yy1(end+1) = (sqrt(sum((G1.nodes(label,:)-G2.nodes(labelling(label),:)).^2))+costStar) / DDD; 
-                    xx1(end+1) = (DDD-1)  / DDD; 
-                end
+		if n_subs < n_labels
+		        n = sum(G1.edges(label,:));
+		        m = sum(G2.edges(labelling(label),:));
+		        [costStar , nn]  = computeCostStar(G1, G2, label, labelling(label));
+		        %[costStar , nn]  = computeCostStar_with_lab(G1, G2, label, labelling(label), labelling);
+		        %DDD=m-2*nn-1;
+		        DDD=n-abs(n-m)+1;
+		        if (DDD ~= 0)
+		            yy1(end+1) = (sqrt(sum((G1.nodes(label,:)-G2.nodes(labelling(label),:)).^2))+costStar) / DDD; 
+		            xx1(end+1) = (DDD-1)  / DDD; 
+		        end
+			n_subs = n_subs + 1;
+		end
+
             else
-  
-            % calculating deletion points (second option)
-                n = sum(G1.edges(label,:));
-                T=[];
-                CostNode = [];
-                CostStar =[];
-                for k = 1:length(G2.nodes(:,1))
-                    m = sum(G2.edges(k,:));
-                    
-                    [CostStar(end+1) ,~ ]  = computeCostStar(G1, G2, label, k);
-                    T(end+1)=abs(n-m);
-                    CostNode(end+1)=sqrt(sum((G1.nodes(label,:)-G2.nodes(k,:)).^2));
-                    
-                    DDD=n-mean(T)+1;
-                    if (DDD ~= 0)
-                         yyy2 = (mean(CostNode)+ mean(costStar)) / DDD; 
-                         xxx2 = (DDD-1) / DDD; 
+                if n_dels < n_labels
+                    % calculating deletion points (second option)
+                    n = sum(G1.edges(label,:));
+                    T=[];
+                    CostNode = [];
+                    CostStar =[];
+                    for k = 1:length(G2.nodes(:,1))
+                        m = sum(G2.edges(k,:));
+
+                        [CostStar(end+1) ,~ ]  = computeCostStar(G1, G2, label, k);
+                        T(end+1)=abs(n-m);
+                        CostNode(end+1)=sqrt(sum((G1.nodes(label,:)-G2.nodes(k,:)).^2));
+
+                        DDD=n-mean(T)+1;
+                        if (DDD ~= 0)
+                             yyy2 = (mean(CostNode)+ mean(costStar)) / DDD; 
+                             xxx2 = (DDD-1) / DDD; 
+                        end
                     end
-               end
-                    y2=[y2 , yyy2];
-                    x2=[x2 , xxx2];
+                        y2=[y2 , yyy2];
+                        x2=[x2 , xxx2];
+                end
             end
         end
         y1=[y1 , yy1];

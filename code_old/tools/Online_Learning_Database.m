@@ -23,7 +23,7 @@ w=ones(1,length(attributes));
 DatabaseName='LETTERHIGH'; 
 outlier=0; % Outlier value is related to the points that are far from the average.
 MIN_Selected_Registers= 2; % MIN_Selected_Registers= 2; 
-MAX_Selected_Registers= MIN_Selected_Registers + 15; % MAX_Selected_Registers= 750;
+MAX_Selected_Registers= MIN_Selected_Registers + 5; % MAX_Selected_Registers= 750;
 display(DatabaseName + ": Linear classifier method: Learn insertion and deletion (without weights)");    
 varname=[DatabaseName '.mat'];
 load(varname);
@@ -41,12 +41,13 @@ hammings(end + 1) = average_hamming;
 
 % Start learning process
 for Selected_Registers = MIN_Selected_Registers : 1: MAX_Selected_Registers  %minimum initial value is 2
+    tic
     display(Selected_Registers);
     registers= 1:Selected_Registers;
     
     % LoadAllRegisters... simply go to the data base and read the registers according to the set limits
     DB_Learning=LoadAllRegisters_Learning_Selected_Registers(Database,registers);
-    
+    toc
     % Sample plot a graph from database
     % [G1,G2,f,C,Index_G,Index_Gprime]=LoadRegister(Database,1,'Learning');
     % plotGraph(G1,'');    
@@ -58,10 +59,13 @@ for Selected_Registers = MIN_Selected_Registers : 1: MAX_Selected_Registers  %mi
     end
     Kv_Ke(end + 1, 1) = Kv;
     Kv_Ke(end, 2) = Ke;
+    toc
     
     % Compute hamming distance using new Kv and Ke
+    tic
     [average_hamming,~,~] = hammingDatabase_Clique_nD(DatabaseName,w,attributes,Kv,Ke,10);
     hammings(end + 1) = average_hamming;
+    toc
 %     pause
 end
 
