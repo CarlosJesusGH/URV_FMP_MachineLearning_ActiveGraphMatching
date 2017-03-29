@@ -1,9 +1,11 @@
 function [m, n] = Linear_Coefficients_2D (Data,Class,Imposed_Kv,Imposed_Ke)
-MdlLinear=fitcdiscr(Data,Class);
+% MdlLinear = fitcdiscr(Data,Class);
+% MdlLinear = CJ_ilda07(Data, Class);
+MdlLinear = CJ_lsilda(Data, Class);
 K = MdlLinear.Coeffs(1,2).Const;
 L = MdlLinear.Coeffs(1,2).Linear;
-m=-L(1)/L(2); %X2=m·X1+n
-n=-K/L(2); %X2=m·X1+n
+m=-L(1)/L(2); %X2=mï¿½X1+n
+n=-K/L(2); %X2=mï¿½X1+n
 
 %% Plot figure
 X1=Data(Class==-1,1);

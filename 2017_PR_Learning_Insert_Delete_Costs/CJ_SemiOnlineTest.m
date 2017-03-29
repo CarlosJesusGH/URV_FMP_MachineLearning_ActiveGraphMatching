@@ -6,7 +6,7 @@
 %     Linear_Coefficients_2D
 %%
 % If already compiled and saved results
-if 1
+if 0
     load Results_Linear_Classifier_Kn_Ke_No_weights;
     figure(2);
     x = 0:length(hammings)-1;
@@ -41,7 +41,7 @@ addpath('Learning_Functions');
 %% HOUSEHOTEL: Size of each set: 2627
 
 % Declare loop increasing variables and load db
-MIN_Selected_Registers= 2; N_Selected_Registers = 10;
+MIN_Selected_Registers= 2; N_Selected_Registers = 50;
 MAX_Selected_Registers= MIN_Selected_Registers + N_Selected_Registers; % MAX_Selected_Registers= 750;
 
 % Initialize learning vars and add comparing hamming test using 0 for kv and ke
@@ -106,6 +106,6 @@ display(hammings);
 save Results_Linear_Classifier_Kn_Ke_No_weights;
 
 figure(2);
-x = 0:len(hammings)
+x = 0:length(hammings)-1;
 plot(x, hammings)
-refline(0,0.94)
+refline(0, 0.9470) %high 0.4417)%med 0.4334) %low 0.9470)
