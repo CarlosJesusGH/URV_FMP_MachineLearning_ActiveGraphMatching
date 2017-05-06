@@ -1,0 +1,1 @@
+In this version the main idea is being able to read a database and read also some matches automatically, this way we can iterate over several values of Kv and Ke to plot the distance behaviour.

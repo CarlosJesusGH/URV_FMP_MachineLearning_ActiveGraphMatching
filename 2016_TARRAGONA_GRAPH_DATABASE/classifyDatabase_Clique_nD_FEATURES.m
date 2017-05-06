@@ -1,0 +1,91 @@
+function [average_accuracy,average_runtime,accuracy] = classifyDatabase_Clique_nD_FEATURES(databaseName,w,attributes,KV,KE,num_test_graphs)
+
+% This function measures the classification accuracy using a 1NN 
+% classifier computing the distances through the Bipartite algorithm
+% (using the Clique centrality
+
+    load(strcat(databaseName,'.mat'));
+    accuracy = [];
+    costsMatrix = [];
+    number_of_test=0;
+    total_runtime=0;
+    if num_test_graphs==0
+        num_test_graphs=length(Database.Test);
+    end
+    for i = 1:num_test_graphs
+        currentElem = Database.Test{i};
+        G1 = currentElem.Graph;
+%         if strcmp(databaseName,'PALMPRINT')==1
+%             [G1.Nodes,G1.Edges]=Palmprint_Minutiae_Selection(G1.Nodes,G1.Edges);
+%         end
+
+        for j = 1:length(Database.Learning)
+
+            currentElem = Database.Learning{j};
+            G2 = currentElem.Graph;
+
+            switch databaseName
+%                 case 'HOUSEHOTEL'
+%                     NA = G1.Nodes;
+%                     NB = G2.Nodes;
+%                     EA = G1.Edges;
+%                     EB = G2.Edges;
+% 
+%                       tic
+%                     [cost,~] = BP_Clique_Centrality_h_With_Weights_Features(NA(:,3:end),NB(:,3:end),EA,EB,w,KV,KE);
+%                     runtime=toc;
+% %                     runtime
+%                     total_runtime=total_runtime+runtime;
+%                     number_of_test=number_of_test+1;
+% %                     number_of_test
+% 
+%                
+%                 case 'PALMPRINT'
+%                     
+%                     NA = G1.Nodes;
+%                     NB = G2.Nodes;
+%                     EA = G1.Edges;
+%                     EB = G2.Edges;
+% 
+%                     tic
+%                     [cost,~] = BP_Clique_Centrality_jv_With_Weights_Palmprint(NA,NB,EA,EB,KV,KE);
+%                     runtime=toc;
+% %                     runtime
+%                     total_runtime=total_runtime+runtime;
+%                     number_of_test=number_of_test+1;
+% %                     number_of_test
+
+                case 'ROTATIONZOOM'
+                    EA = G1.Edges;
+                    EB = G2.Edges;
+                    NA=G1.Nodes(:,attributes);
+                    NB=G2.Nodes(:,attributes);
+
+                    
+                    tic
+                    [cost,~] = BP_Clique_Centrality_h_With_Weights_Features(NA,NB,EA,EB,w,KV,KE);
+                    runtime=toc
+%                     runtime
+                    total_runtime=total_runtime+runtime;
+                    number_of_test=number_of_test+1;
+%                     number_of_test
+
+                otherwise
+                    error('Unexpected database name.');
+            end
+
+            costsMatrix(i, j) = cost;
+            display(j);
+        end
+        
+        [~, pos] = min(costsMatrix(i,:));
+        if (Database.Learning{pos}.Class == Database.Test{i}.Class)
+            accuracy(end+1) = 1;
+        else
+            accuracy(end+1) = 0;
+        end            
+        display(floor(100*i/num_test_graphs));
+    end
+    average_accuracy = mean(accuracy);
+    average_runtime=total_runtime/number_of_test;
+end

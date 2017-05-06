@@ -1,0 +1,6 @@
+test_classifyDatabase_Clique_weights
+test_classifyDatabase_Clique
+test_classifyDatabase_Point
+test_hammingDatabase_Clique_weights
+test_hammingDatabase_Clique
+test_hammingDatabase_Point

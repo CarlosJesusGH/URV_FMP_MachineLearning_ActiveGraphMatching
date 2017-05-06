@@ -1,0 +1,2 @@
+Here we created the first GUI, now it is possible to change the in put files and setup some variables like Kv and Ke. 
+Additionally, and maybe the most highlighting improvement in this version is the possibility of matching nodes from both graphs, and this way computing not only global, but also local distances between graphs.
