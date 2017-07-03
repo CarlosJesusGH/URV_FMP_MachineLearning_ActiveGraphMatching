@@ -9,19 +9,9 @@ T=size(G1.nodes,2);
 C=zeros(a,b,T);
   for i=1:a
     for j=1:b      
-        C(i,j,:)=(NeighboursA(i,:)-NeighboursB(j,:)).^2;
+        C(i,j,:)=abs(NeighboursA(i,:)-NeighboursB(j,:));
     end
   end
-% CC=zeros(a,b);  
-% for t=1:T
-%   CC=CC+C(:,:,t);
-% end
-% lab=Hungarian(CC);
-% cost=zeros(T,1);
-% for t=1:T
-%   cost(t)=sum(sum(lab.*C(:,:,t)));
-% end
-
 cost=zeros(T,1);
 for t=1:T
     lab=Hungarian(C(:,:,t));

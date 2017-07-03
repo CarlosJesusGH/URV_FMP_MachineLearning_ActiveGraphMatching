@@ -19,9 +19,6 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique(datab
     for i = 1:num_test_graphs
         currentElem = Database.Test{i};
         G1 = currentElem.Graph;
-        if strcmp(databaseName,'PALMPRINT')==1
-            [G1.Nodes,G1.Edges]=Palmprint_Minutiae_Selection(G1.Nodes,G1.Edges);
-        end
         for j = 1:length(currentElem.Correspondences)
             if (j ~= i)
                 G2 = Database.Test{currentElem.Correspondences{j}.InputGraph}.Graph;
@@ -106,14 +103,9 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique(datab
                         
                     case 'PALMPRINT'
                         
-                        [G2.Nodes,G2.Edges]=Palmprint_Minutiae_Selection(G2.Nodes,G2.Edges);
+                        [NA,NB,EA,EB,idealMapping]=Palmprint_Minutiae_Selection(G1.Nodes,G2.Nodes,G1.Edges,G2.Edges,idealMapping);
 
-                        NA = G1.Nodes;
-                        NB = G2.Nodes;
-                        EA = G1.Edges;
-                        EB = G2.Edges;
-
-                        tic
+                        
                         [~,automaticMapping] = BP_Clique_Centrality_jv_Palmprint(NA,NB,EA,EB,KV,KE);
                         errors(end + 1) = 1-(length(find(automaticMapping - idealMapping) ~= 0) / length(automaticMapping));
                         runtime=toc;
@@ -123,13 +115,13 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique(datab
                         
                         
                     case 'ROTATIONZOOM'
-                        NA = G1.Nodes(:,3:66);
-                        NB = G2.Nodes(:,3:66);
+                        NA = G1.Nodes;
+                        NB = G2.Nodes;
                         EA = G1.Edges;
                         EB = G2.Edges;
 
                         tic
-                        [~,automaticMapping] = BP_Clique_Centrality_h_Features(NA,NB,EA,EB,KV,KE);
+                        [~,automaticMapping] = BP_Clique_Centrality_h_Features(NA,NB,EA,EB,3:66,KV,KE);
                         errors(end + 1) = 1-(length(find(automaticMapping - idealMapping) ~= 0) / length(automaticMapping));                   
                         runtime=toc;
                         

@@ -16,7 +16,7 @@ b=size(NB,1);
 Q1=zeros(a,b);
 for i=1:a
     for j=1:b
-        Q1(i,j)=Dist_Minutia(NA(i,:),NB(j,:));
+        Q1(i,j)=Dist_Minutia(NA(i,:),NB(j,:),1,1);
     end
 end
 

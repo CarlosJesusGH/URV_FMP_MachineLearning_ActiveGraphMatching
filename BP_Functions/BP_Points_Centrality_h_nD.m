@@ -15,7 +15,7 @@ b=size(NB,1);
 Q1=zeros(a,b);
 for i=1:a
     for j=1:b
-        Q1(i,j)=w*((NA(i,:)-NB(j,:)).^2)';
+        Q1(i,j)=w*(abs(NA(i,:)-NB(j,:)))';
     end
 end
 
@@ -32,7 +32,15 @@ for j=1:b
 end
 
 %Concatenate the four matrices and Hungarian
-Q4=zeros(b,a);
+minQ1=min(min(Q1));
+minQ2=min(min(Q2));
+minQ3=min(min(Q3));
+minQ4=min(minQ1,min(minQ2,minQ3));
+if minQ4<0
+    Q4=minQ4*ones(b,a);
+else
+    Q4=zeros(b,a);
+end
 QT=cat(1,Q1,Q3); Q2=cat(1,Q2,Q4);
 C=cat(2,QT,Q2);
 lab=Hungarian(C);

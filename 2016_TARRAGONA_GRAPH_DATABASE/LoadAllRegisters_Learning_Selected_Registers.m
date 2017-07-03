@@ -12,6 +12,4 @@ for i =1:Max_Register
         lll=data{end}.labelling~=-1;
         data{end}.labelling=data{end}.labelling.*lll;
 end
-
-
 end

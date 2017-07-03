@@ -30,17 +30,11 @@ end
 
 % Compute substitution quadrant
 Q1=zeros(a,b);
-Dist_Minutia_Data=zeros(a,b);
 for i=1:a
     for j=1:b
-        Dist_Minutia_Data(i,j)=Dist_Minutia(NA(i,:),NB(j,:));
-    end
-end
-for i=1:a
-    for j=1:b
-        Q1(i,j)=Dist_Minutia_Data(i,j);
+        Q1(i,j)=Dist_Minutia(NA(i,:),NB(j,:),1,1);
         if((sA(i)>0) && (sB(j)>0))
-            Q1(i,j)=Q1(i,j)+BP_Points_Centrality_jv_Palmprint(NeighboursA{i},NeighboursB{j},NodeInsDel+ArcInsDel,i,j,Dist_Minutia_Data);
+            Q1(i,j)=Q1(i,j)+BP_Points_Centrality_jv_Palmprint(NeighboursA{i},NeighboursB{j},NodeInsDel+ArcInsDel);
         end
         if((sA(i)>0) && (sB(j)==0))
             Q1(i,j)=Q1(i,j)+ sA(i)*(NodeInsDel+ArcInsDel);

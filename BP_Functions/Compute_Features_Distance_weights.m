@@ -19,8 +19,9 @@ scores = zeros(N1, N2,'single');
 % used for code generation
 for c = 1:N1
     for r = 1:N2
-        scores(c, r)= length(w)*(((features1(c,1:vector_length) - features2(r,1:vector_length)).^2)*w);
-        %= sum(w.*(features1(c,1:vector_length) - features2(r,1:vector_length)).^2);
+        %scores(c, r)= (((features1(c,1:vector_length) - features2(r,1:vector_length)).^2)*w);
+        %scores(c, r)= length(w)*(((features1(c,1:vector_length) - features2(r,1:vector_length)).^2)*w);
+        scores(c, r)= sum(w'.*((features1(c,1:vector_length) - features2(r,1:vector_length)).^2));
     end
 end
 end

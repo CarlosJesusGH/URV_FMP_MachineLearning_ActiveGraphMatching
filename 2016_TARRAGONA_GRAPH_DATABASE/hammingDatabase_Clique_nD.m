@@ -6,10 +6,9 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique_nD(da
 % Test set. It also measures the average runtime for each correspondence
 % generation and comparison
 
-    %addpath('Utils');
-    %addpath(databaseName);
-    load(strcat(databaseName,'.mat'));
-    
+    addpath('Utils');
+    addpath(databaseName);
+    load(strcat(databaseName,'.mat'));  
     errors = [];
     number_of_test=0;
     total_runtime=0;
@@ -17,11 +16,12 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique_nD(da
         num_test_graphs=length(Database.Test);
     end
     for i = 1:num_test_graphs
-        %display(floor(100*i/num_test_graphs));
+        display(floor(100*i/num_test_graphs));
         currentElem = Database.Test{i};
         G1 = currentElem.Graph;
         for j = 1:length(currentElem.Correspondences)
             if (j ~= i)
+                j
                 G2 = Database.Test{currentElem.Correspondences{j}.InputGraph}.Graph;
                 idealMapping = currentElem.Correspondences{j}.Mappings;
                 lll= idealMapping~=-1;
@@ -103,16 +103,17 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique_nD(da
                         
                         
                     case 'PALMPRINT'
-                        
                         NA = G1.Nodes;
                         NB = G2.Nodes;
                         EA = G1.Edges;
                         EB = G2.Edges;
 
+                        [NA,NB,EA,EB,idealMapping]=Palmprint_Minutiae_Selection(NA,NB,EA,EB,idealMapping);
+
                         tic
-                        [~,automaticMapping] = BP_Clique_Centrality_h_nD(NA,NB,EA,EB,w,attributes,KV,KE);
+                        [~,automaticMapping] = BP_Clique_Centrality_h_Palmprint_nD(NA,NB,EA,EB,w(1),w(2),KV,KE);
                         errors(end + 1) = 1-(length(find(automaticMapping - idealMapping) ~= 0) / length(automaticMapping));
-                        runtime=toc;
+                        runtime=toc
                         
                         total_runtime=total_runtime+runtime;
                         number_of_test=number_of_test+1;

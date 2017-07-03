@@ -8,7 +8,7 @@ nn=min(a,b);
 C=zeros(a,b);
   for i=1:a
     for j=1:b      
-        C(i,j)=sum((NeighboursA(i,:)-NeighboursB(j,:)).^2);
+        C(i,j)=sqrt(sum((NeighboursA(i,:)-NeighboursB(j,:)).^2));
     end
   end
     lab=Hungarian(C);

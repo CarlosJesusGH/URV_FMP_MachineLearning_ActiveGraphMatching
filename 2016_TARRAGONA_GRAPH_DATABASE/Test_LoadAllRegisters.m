@@ -18,17 +18,20 @@ addpath('HOUSEHOTEL');
 %% SAGRADAFAMILIA3D: Size of each set: 18496
 %% HOUSEHOTEL: Size of each set: 2627
 
-Database='LETTERLOW';  Max_Register=10;
+% Database='LETTERLOW';  Max_Register=10;
 % Database='LETTERMED';  Max_Register=10;
 % Database='LETTERHIGH'; Max_Register=10;
 % Database='ROTATIONZOOM'; Max_Register=10; %(x,y) not used. Only SIFTs
 % Database='PALMPRINT'; Max_Register=10;
+Database='PALMPRINT';
 % Database='HOUSEHOTEL'; % There aren't insertion or deletions.
 % Database='SAGRADAFAMILIA3D'; % only 1 class.
 %%
 varname=[Database '.mat'];
 load(varname);
-data_Learning=LoadAllRegisters_Learning(Database,Max_Register);
+Registers = [ 4 ];
+data_Learning=LoadAllRegisters_Learning_Selected_Registers(Database,Registers);
+data_Learning_Quality=LoadAllRegisters_Learning_Selected_Registers_Palmprint_Quality(Database,Registers);
 %data_Test=LoadAllRegisters_Test(Database,Max_Register);
 %data_Validation=LoadAllRegisters_Validation(Database,Max_Register);
 clear Database

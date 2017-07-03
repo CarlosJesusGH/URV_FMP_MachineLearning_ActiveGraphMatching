@@ -27,8 +27,7 @@ Num_Registers=10;
 % display('LETTERHIGH no learning');
 % Kv=1; Ke=1; 
 % w=ones(1,length(attributes));
-% [hamming_LETTERHIGH_no_learn,runtime_LETTERHIGH_no_learn,hamming_Graph_LETTERHIGH_no_learn] = hammingDatabase_Clique_nD('LETTERHIGH',w,attributes,Kv,Ke,Num_Registers);
-% hamming_LETTERHIGH_no_learn
+% [hamming_LETTERHIGH_no_learn,~,~] = hammingDatabase_Clique_nD('LETTERHIGH',w,attributes,Kv,Ke,Num_Registers)
 %%
 display('LETTERHIGH learning kv and ke');
 clear w;
@@ -37,17 +36,15 @@ clear Ke;
 load ../2017_PR_Learning_Insert_Delete_Costs/Results_Linear_Classifier_Kn_Ke_No_weights;
 w=ones(1,length(attributes));
 Kv=Kv_Letter_High; Ke=Ke_Letter_High;
-[hamming_LETTERHIGH_wight_learn_kv_Ke_No_weights,runtime_LETTERHIGH_wight_learn_kv_Ke_No_weights,hamming_Graph_LETTERHIGH_wight_learn_kv_Ke_No_weights] = hammingDatabase_Clique_nD('LETTERHIGH',w,attributes,Kv,Ke,Num_Registers);
-hamming_LETTERHIGH_wight_learn_kv_Ke_No_weights
+[hamming_LETTERHIGH,~,~] = hammingDatabase_Clique('LETTERHIGH',Kv,Ke,Num_Registers);
 %%
-% display('LETTERHIGH learning w, kv and ke');
-% clear w;
-% clear Kv;
-% clear Ke;
-% load ../2017_PR_Learning_Insert_Delete_Costs/Results_Linear_Classifier_w_Kn_Ke;
-% w=w_Letter_High; Kv=Kv_Letter_High; Ke=Ke_Letter_High; 
-% [hamming_LETTERHIGH_nD,runtime_LETTERHIGH_nD,hamming_Graph_LETTERHIGH_nD] = hammingDatabase_Clique_nD('LETTERHIGH',w,attributes,Kv,Ke,Num_Registers);
-% hamming_LETTERHIGH_nD
+display('LETTERHIGH learning w, kv and ke');
+clear w;
+clear Kv;
+clear Ke;
+load ../2017_PR_Learning_Insert_Delete_Costs/Results_Linear_Classifier_w_Kn_Ke;
+w=w_Letter_High; Kv=Kv_Letter_High; Ke=Ke_Letter_High; 
+[hamming_LETTERHIGH_nD,~,~] = hammingDatabase_Clique_nD('LETTERHIGH',w,attributes,Kv,Ke,Num_Registers);
 %%
 clear w;
 clear Kv;
@@ -61,9 +58,12 @@ clear Ke_Letter_Med;
 clear w_Letter_High;
 clear Kv_Letter_High;
 clear Ke_Letter_High;
-clear w_ROTATIONZOOM;
-clear Kv_ROTATIONZOOM;
-clear Ke_ROTATIONZOOM;
+clear w_SAGRADAFAMILIA3D;
+clear Kv_SAGRADAFAMILIA3D;
+clear Ke_SAGRADAFAMILIA3D;
+clear w_PALMPRINT;
+clear Kv_PALMPRINT;
+clear Ke_PALMPRINT;
 clear attributes;
 save Results_Hamming_LETTERHIGH;
 display('LETTERHIGH Done');

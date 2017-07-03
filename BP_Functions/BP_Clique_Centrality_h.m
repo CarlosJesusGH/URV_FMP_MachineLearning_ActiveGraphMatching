@@ -31,7 +31,7 @@ end
 Q1=zeros(a,b);
 for i=1:a
     for j=1:b
-        Q1(i,j)=norm(NA(i,:)-NB(j,:));
+        Q1(i,j)=sqrt(sum(NA(i,:)-NB(j,:)));
         if((sA(i)>0) && (sB(j)>0))
             Q1(i,j)=Q1(i,j)+BP_Points_Centrality_h(NeighboursA{i},NeighboursB{j},NodeInsDel+ArcInsDel);
         end

@@ -18,7 +18,7 @@ N2=size(features2,1);
 scores = zeros(N1, N2);
 for c = 1:N1
     for r = 1:N2
-        scores(c, r) = (features1(c,t) - features2(r,t)).^2;
+        scores(c, r) = (features1(c,t) - features2(r,t))^2;
     end
 end
 end

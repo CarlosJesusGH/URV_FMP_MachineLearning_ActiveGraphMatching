@@ -11,16 +11,16 @@ for i =1:Max_Register
         data{end}.labelling=f;
 end
 for k=1:Max_Register
-vector_substract=zeros(1,length(data{end}.labelling));
-vector_insertion=zeros(1,size(data{end}.graph2.nodes,1));
+vector_substract=zeros(1,length(data{k}.labelling));
+vector_insertion=zeros(1,size(data{k}.graph2.nodes,1));
 substract=0;
-for i=1:size(data{end}.graph2.nodes,1)
-    value=find(data{k}.labelling==i);
-    if isempty(value)
-        substract=substract+1;
+for i=1:size(data{k}.graph2.nodes,1) % Nodes G2
+    value=find(data{k}.labelling==i); % Detect if is mapped from one in G1
+    if isempty(value) % The node is an insertion that has to be deleted
+        substract=substract+1; % Number of nodes deleted in G2
         vector_insertion(i)=1;
     else
-        vector_substract(value)=substract;       
+        vector_substract(value)=substract;   % G1(value) is mapped to G2(i)   
     end
 end   
     vector_delete=find(data{k}.labelling==-1);

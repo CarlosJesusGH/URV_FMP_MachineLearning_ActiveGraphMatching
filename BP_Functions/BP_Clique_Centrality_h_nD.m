@@ -12,7 +12,7 @@ function [distance,lab]=BP_Clique_Centrality_h_nD(NA,NB,EA,EB,w,attributes,NodeI
 % ArcInsDel: Cost of deleting or inserting an edge
 NA=NA(:,attributes);
 NB=NB(:,attributes);
-Nul=100000;
+Nul=1000;
 a=size(NA,1); 
 b=size(NB,1);
 sA=zeros(a,1);
@@ -32,7 +32,7 @@ end
 Q1=zeros(a,b);
 for i=1:a
     for j=1:b
-        Q1(i,j)=w*((NA(i,:)-NB(j,:)).^2)';
+        Q1(i,j)=w*(abs(NA(i,:)-NB(j,:)))';
         if((sA(i)>0) && (sB(j)>0))
             Q1(i,j)=Q1(i,j)+BP_Points_Centrality_h_nD(NeighboursA{i},NeighboursB{j},w,NodeInsDel+ArcInsDel);
         end
@@ -59,7 +59,16 @@ for j=1:b
 end
 
 % Concatenate the four matrices and Hungarian
-Q4=zeros(b,a);
+minQ1=min(min(Q1));
+minQ2=min(min(Q2));
+minQ3=min(min(Q3));
+minQ4=min(minQ1,min(minQ2,minQ3));
+if minQ4<0
+    Q4=minQ4*ones(b,a);
+else
+    Q4=zeros(b,a);
+end
+
 QT=cat(1,Q1,Q3); Q2=cat(1,Q2,Q4);
 C=cat(2,QT,Q2);
 lab=Hungarian(C);

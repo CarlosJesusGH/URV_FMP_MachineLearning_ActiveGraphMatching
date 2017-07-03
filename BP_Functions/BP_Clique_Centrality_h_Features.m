@@ -1,4 +1,4 @@
-function [distance,lab]=BP_Clique_Centrality_h_Features(NA,NB,EA,EB,NodeInsDel,ArcInsDel)
+function [distance,lab]=BP_Clique_Centrality_h_Features(NA,NB,EA,EB,attributes,NodeInsDel,ArcInsDel)
 % francesc.serratosa@urv.cat
 % [Distance,labelling]= BP_Clique_Centrality_h(NA,NB,EA,EB,NodeInsDel,ArcInsDel)
 % Graph matching algorithm: BP
@@ -11,6 +11,8 @@ function [distance,lab]=BP_Clique_Centrality_h_Features(NA,NB,EA,EB,NodeInsDel,A
 % NodeInsDel: Cost of deleting or inserting a node
 % ArcInsDel: Cost of deleting or inserting an edge
 
+NA=NA(:,attributes);
+NB=NB(:,attributes);
 Nul=100000;
 a=size(NA,1); 
 b=size(NB,1);
