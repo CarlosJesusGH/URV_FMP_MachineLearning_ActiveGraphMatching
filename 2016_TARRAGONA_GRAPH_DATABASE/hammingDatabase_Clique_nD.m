@@ -21,7 +21,7 @@ function [average_hamming,average_runtime,errors] = hammingDatabase_Clique_nD(da
         G1 = currentElem.Graph;
         for j = 1:length(currentElem.Correspondences)
             if (j ~= i)
-                j
+%                 j
                 G2 = Database.Test{currentElem.Correspondences{j}.InputGraph}.Graph;
                 idealMapping = currentElem.Correspondences{j}.Mappings;
                 lll= idealMapping~=-1;

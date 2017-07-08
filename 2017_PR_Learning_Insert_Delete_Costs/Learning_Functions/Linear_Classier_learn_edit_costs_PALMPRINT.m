@@ -6,7 +6,7 @@ function [Kv, Ke, data1, data2] = Linear_Classier_learn_edit_costs_PALMPRINT(dat
     x2 = [];
     y2 = [];  
     for elem = 1:size(data,2)  
-        elem
+%         elem
         labelling = data{elem}.labelling;
         if(sum(labelling>0)>0)
             G1 = data{elem}.graph1;

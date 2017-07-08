@@ -3,6 +3,6 @@ Linear_Classier_Learn_Edit_Cost_Database
 %Linear_Classier_Learn_Edit_Cost_Database_nD
 % test_hammingDatabase_Clique_LETTERLOW
 % test_hammingDatabase_Clique_LETTERMED
-test_hammingDatabase_Clique_LETTERHIGH
+% test_hammingDatabase_Clique_LETTERHIGH
 % test_hammingDatabase_Clique_SAGRADAFAMILIA3D
 % test_hammingDatabase_Clique_PALMPRINT
